@@ -4,11 +4,9 @@
  */
 package com.github.jackieonway.swagger.configuration;
 
-import com.github.jackieonway.swagger.annotation.EnableSwagger;
 import com.github.jackieonway.swagger.entity.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @version $id: SwaggerAutoConfiguration.java v 0.1 2019-10-22 15:17 Jackie Exp $$
  */
 @Configuration
-//@ConditionalOnBean(annotation = EnableSwagger.class)
 @EnableConfigurationProperties(SwaggerProperties.class)
 @EnableSwagger2
 public class SwaggerAutoConfiguration {

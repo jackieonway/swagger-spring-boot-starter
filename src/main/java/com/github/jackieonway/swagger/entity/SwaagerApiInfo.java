@@ -23,15 +23,15 @@ public class SwaagerApiInfo {
     @NestedConfigurationProperty
     private SwaggerContact contact;
     /**
-     * swagger 证书名称
+     * swagger license name
      */
     private String license;
     /**
-     * swagger 证书地址
+     * swagger license url
      */
     private String licenseUrl;
     /**
-     * swagger 接口版本信息
+     * swagger interface version
      */
     private String version;
 

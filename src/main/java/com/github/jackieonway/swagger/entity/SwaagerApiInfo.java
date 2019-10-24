@@ -6,19 +6,19 @@ import java.util.List;
 
 public class SwaagerApiInfo {
     /**
-     * swagger 标题
+     * swagger title
      */
     private String title;
     /**
-     * swagger 描述
+     * swagger description
      */
     private String description;
     /**
-     * swagger 服务团队网址
+     * swagger terms of service  url
      */
     private String termsOfServiceUrl;
     /**
-     * swagger 联系信息
+     * swagger contact
      */
     @NestedConfigurationProperty
     private SwaggerContact contact;

@@ -14,9 +14,15 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties(prefix = "spring.jackieonway.swagger")
 public class SwaggerProperties {
 
+    /**
+     *  swagger api info
+     */
     @NestedConfigurationProperty
     private SwaagerApiInfo apiInfo;
 
+    /**
+     *  swagger scan packages
+     */
     private String scanPackages;
 
     /**

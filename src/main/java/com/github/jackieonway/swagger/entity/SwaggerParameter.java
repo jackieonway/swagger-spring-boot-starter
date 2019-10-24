@@ -12,23 +12,23 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 public class SwaggerParameter {
     /**
-     * swagger 参数名称
+     * swagger param name
      */
     private String name;
     /**
-     * swagger 描述
+     * swagger param description
      */
     private String description;
     /**
-     * swagger 参数默认值
+     * swagger param default value
      */
     private String defaultValue;
     /**
-     * swagger 是否必须
+     * swagger param is required
      */
     private Boolean required;
     /**
-     * swagger 参数依赖类型
+     * swagger param model reference
      */
     @NestedConfigurationProperty
     private SwaggerModelReference modelRef;

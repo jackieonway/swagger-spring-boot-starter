@@ -11,7 +11,7 @@ package com.github.jackieonway.swagger.entity;
 public class SwaggerModelReference {
 
     /**
-     *  接受类型
+     *  swagger params can revice type such as "string\Long"
      */
     private String type;
 

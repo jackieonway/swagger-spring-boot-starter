@@ -11,17 +11,17 @@ package com.github.jackieonway.swagger.entity;
 public class SwaggerContact {
 
     /**
-     * 作者
+     *  author
      */
     private String name;
 
     /**
-     *  服务网址
+     *  swagger author service url
      */
     private String url;
 
     /**
-     * 联系邮箱
+     * author email
      */
     private String email;
 

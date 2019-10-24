@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.jackieonway</groupId>
     <artifactId>swagger-spring-boot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>swagger-spring-boot-starter</name>
     <description>Swagger starter project for Spring Boot</description>
     <url>https://github.com/jackieonway</url>

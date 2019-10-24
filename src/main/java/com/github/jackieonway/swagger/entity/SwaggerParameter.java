@@ -15,6 +15,12 @@ public class SwaggerParameter {
      * swagger param name
      */
     private String name;
+
+    /**
+     * swagger param type such as "header" etc
+     */
+    private String paramType;
+
     /**
      * swagger param description
      */
@@ -35,6 +41,14 @@ public class SwaggerParameter {
 
     public String getName() {
         return name;
+    }
+
+    public String getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(String paramType) {
+        this.paramType = paramType;
     }
 
     public void setName(String name) {

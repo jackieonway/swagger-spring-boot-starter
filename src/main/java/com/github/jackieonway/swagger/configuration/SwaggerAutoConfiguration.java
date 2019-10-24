@@ -75,6 +75,9 @@ public class SwaggerAutoConfiguration {
             if (!StringUtils.isEmpty(param.getRequired())){
                 parameterBuilder.required(param.getRequired());
             }
+            if (!StringUtils.isEmpty(param.getParamType())){
+                parameterBuilder.parameterType(param.getParamType());
+            }
             if (Objects.nonNull(param.getModelRef())){
                 SwaggerModelReference modelRef = param.getModelRef();
                 if (!StringUtils.isEmpty(modelRef.getType())){

@@ -47,7 +47,7 @@ public class SwaggerAutoConfiguration {
         //在配置好的配置类中增加此段代码即可
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
 
-        docket = docket.apiInfo(apiInfo());
+        docket = docket.apiInfo(apiInfo()).enable(swaggerProperties.getEnable());
         ApiSelectorBuilder select = docket.select();
         if (!StringUtils.isEmpty(swaggerProperties.getScanPackages())) {
             select.apis(RequestHandlerSelectors.basePackage(swaggerProperties.getScanPackages()));

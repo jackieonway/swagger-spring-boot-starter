@@ -6,9 +6,6 @@ package com.github.jackieonway.swagger.entity;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import springfox.documentation.service.Parameter;
-
-import java.util.List;
 
 /**
  * @author Jackie
@@ -21,6 +18,11 @@ public class SwaggerProperties {
     private SwaagerApiInfo apiInfo;
 
     private String scanPackages;
+
+    /**
+     * Enable or disable swagger : true enable
+      */
+    private Boolean enable = true;
 
     public SwaagerApiInfo getApiInfo() {
         return apiInfo;
@@ -36,5 +38,13 @@ public class SwaggerProperties {
 
     public void setScanPackages(String scanPackages) {
         this.scanPackages = scanPackages;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 }

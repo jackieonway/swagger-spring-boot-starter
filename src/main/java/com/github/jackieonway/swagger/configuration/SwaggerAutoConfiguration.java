@@ -6,25 +6,22 @@ package com.github.jackieonway.swagger.configuration;
 
 import com.github.jackieonway.swagger.entity.*;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
+import springfox.documentation.builders.*;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
-import springfox.documentation.service.Parameter;
+import springfox.documentation.service.RequestParameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,21 +32,21 @@ import java.util.Objects;
  */
 @Configuration
 @EnableConfigurationProperties(SwaggerProperties.class)
-@EnableSwagger2
+@EnableOpenApi
 public class SwaggerAutoConfiguration {
 
-    @Autowired
+    @Resource
     private SwaggerProperties swaggerProperties;
 
 
     @Bean
     public Docket swaggerRestApi() {
         //在配置好的配置类中增加此段代码即可
-        Docket docket = new Docket(DocumentationType.SWAGGER_2);
+        Docket docket = new Docket(DocumentationType.OAS_30);
 
         docket = docket.apiInfo(apiInfo()).enable(swaggerProperties.getEnable());
         ApiSelectorBuilder select = docket.select();
-        if (!StringUtils.isEmpty(swaggerProperties.getScanPackages())) {
+        if (!ObjectUtils.isEmpty(swaggerProperties.getScanPackages())) {
             select.apis(RequestHandlerSelectors.basePackage(swaggerProperties.getScanPackages()));
         }else {
             select.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class));
@@ -60,63 +57,64 @@ public class SwaggerAutoConfiguration {
         if (CollectionUtils.isEmpty(parameters)){
             return docket;
         }
-        List<Parameter> parameterList = new ArrayList<>();
+        List<RequestParameter> parameterList = new ArrayList<>();
         parameters.forEach(param -> {
-            ParameterBuilder parameterBuilder = new ParameterBuilder();
-            if (!StringUtils.isEmpty(param.getName())){
-                parameterBuilder.name(param.getName());
+            RequestParameterBuilder requestParameterBuilder = new RequestParameterBuilder();
+            if (!ObjectUtils.isEmpty(param.getName())){
+                requestParameterBuilder.name(param.getName());
             }
-            if (!StringUtils.isEmpty(param.getDefaultValue())){
-                parameterBuilder.defaultValue(param.getDefaultValue());
+            ExampleBuilder exampleBuilder = new ExampleBuilder();
+            if (!ObjectUtils.isEmpty(param.getDefaultValue())){
+                exampleBuilder.value(param.getDefaultValue());
             }
-            if (!StringUtils.isEmpty(param.getDescription())){
-                parameterBuilder.description(param.getDescription());
+            if (!ObjectUtils.isEmpty(param.getDescription())){
+                requestParameterBuilder.description(param.getDescription());
             }
-            if (!StringUtils.isEmpty(param.getRequired())){
-                parameterBuilder.required(param.getRequired());
+            if (!ObjectUtils.isEmpty(param.getRequired())){
+                requestParameterBuilder.required(param.getRequired());
             }
-            if (!StringUtils.isEmpty(param.getParamType())){
-                parameterBuilder.parameterType(param.getParamType());
+            if (!ObjectUtils.isEmpty(param.getParamType())){
+                requestParameterBuilder.in(param.getParamType());
             }
-            if (Objects.nonNull(param.getModelRef())){
+            if (!ObjectUtils.isEmpty(param.getModelRef())){
                 SwaggerModelReference modelRef = param.getModelRef();
-                if (!StringUtils.isEmpty(modelRef.getType())){
-                    ModelRef modelRef1 = new ModelRef(modelRef.getType());
-                    parameterBuilder.modelRef(modelRef1);
+                if (!ObjectUtils.isEmpty(modelRef.getType())){
+                    exampleBuilder.mediaType(modelRef.getType());
+                    requestParameterBuilder.example(exampleBuilder.build());
                 }
             }
-            parameterList.add(parameterBuilder.build());
+            parameterList.add(requestParameterBuilder.build());
         });
-        docket.globalOperationParameters(parameterList);
+        docket.globalRequestParameters(parameterList);
         return docket;
     }
 
     private ApiInfo apiInfo(){
         SwaagerApiInfo apiInfo = swaggerProperties.getApiInfo();
         ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
-        if (!StringUtils.isEmpty(apiInfo.getTitle())){
+        if (StringUtils.hasText(apiInfo.getTitle())){
             apiInfoBuilder.title(apiInfo.getTitle());
         }
-        if (!StringUtils.isEmpty(apiInfo.getDescription())){
+        if (StringUtils.hasText(apiInfo.getDescription())){
             apiInfoBuilder.description(apiInfo.getDescription());
         }
-        if (!StringUtils.isEmpty(apiInfo.getTermsOfServiceUrl())){
+        if (StringUtils.hasText(apiInfo.getTermsOfServiceUrl())){
             apiInfoBuilder.termsOfServiceUrl(apiInfo.getTermsOfServiceUrl());
         }
-        if (!StringUtils.isEmpty(apiInfo.getLicense())){
+        if (StringUtils.hasText(apiInfo.getLicense())){
             apiInfoBuilder.license(apiInfo.getLicense());
         }
-        if (!StringUtils.isEmpty(apiInfo.getLicenseUrl())){
+        if (StringUtils.hasText(apiInfo.getLicenseUrl())){
             apiInfoBuilder.licenseUrl(apiInfo.getLicenseUrl());
         }
-        if (!StringUtils.isEmpty(apiInfo.getVersion())){
+        if (StringUtils.hasText(apiInfo.getVersion())){
             apiInfoBuilder.version(apiInfo.getVersion());
         }
         SwaggerContact contact = apiInfo.getContact();
         if (Objects.nonNull(contact)){
-            boolean name = StringUtils.isEmpty(contact.getName());
-            boolean url = StringUtils.isEmpty(contact.getUrl());
-            boolean email = StringUtils.isEmpty(contact.getEmail());
+            boolean name = StringUtils.hasText(contact.getName());
+            boolean url = StringUtils.hasText(contact.getUrl());
+            boolean email = StringUtils.hasText(contact.getEmail());
             Contact contact1 = new Contact(name?"":contact.getName(),url?"":contact.getUrl(),email?"":contact.getEmail());
             apiInfoBuilder.contact(contact1);
         }

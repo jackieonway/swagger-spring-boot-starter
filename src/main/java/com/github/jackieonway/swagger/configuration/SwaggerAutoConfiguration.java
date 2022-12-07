@@ -127,7 +127,10 @@ public class SwaggerAutoConfiguration {
             boolean name = StringUtils.hasText(contact.getName());
             boolean url = StringUtils.hasText(contact.getUrl());
             boolean email = StringUtils.hasText(contact.getEmail());
-            Contact contact1 = new Contact(name?"":contact.getName(),url?"":contact.getUrl(),email?"":contact.getEmail());
+            Contact contact1 = new Contact(
+                    name ? contact.getName() : "",
+                    url ? contact.getUrl() : "",
+                    email ? contact.getEmail(): "");
             apiInfoBuilder.contact(contact1);
         }
         return apiInfoBuilder.build();
